@@ -24,25 +24,29 @@ fun main(args: Array<String>) {
 
     println("Found ${commands.size} commands")
     println(commands.keys.joinToString("\n"))
-    
+
     //permissions 268437568
     val jda = JDABuilder(config.token).build()
 
     jda.awaitReady()
 
+    val rcRegex = Regex("rc|runecraft", RegexOption.IGNORE_CASE)
+
     jda.addEventListener(object : ListenerAdapter() {
 
         override fun onMessageReceived(event: MessageReceivedEvent) {
-            val msg = event.message.contentRaw.split(" ")
-            if (msg.size < 2) {
-                return
-            }
+            val raw = event.message.contentRaw
+            val msg = raw.split(" ")
 
             //1/100 chance to react :runecraft: to a message containing runecrafting
-            if (config.easterEggs && ("runecraft" in msg || "rc" in msg || "runecrafting" in msg) && rand(100) == 0) {
+            if (config.easterEggs && raw.matches(rcRegex) && rand(100) == 0) {
                 event.guild?.getEmotesByName("runecrafting", true)?.firstOrNull()?.let {
-                    event.message.addReaction(it)
+                    event.message.addReaction(it).queue()
                 }
+            }
+
+            if (msg.size < 2) {
+                return
             }
 
             //println("${event.channel.name} -- ${event.message.contentRaw} -- ${event.message.author}")
