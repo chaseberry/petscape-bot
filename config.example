@@ -1,0 +1,4 @@
+{
+    "token": "SECRET-TOKEN-HERE-PLEASE",
+    "easterEggs": Boolean?, defaults to true
+}
