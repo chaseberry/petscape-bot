@@ -5,7 +5,7 @@ import edu.csh.chase.sprint.Sprint
 import java.net.URLEncoder
 
 fun main() {
-    val name = "theophobia"
+    val name = "sigurros"
 
     val scores = getHighScores(name) ?: return
 
@@ -13,11 +13,17 @@ fun main() {
 
     println(scores[Index.overall].score)
 
-    println(scores.byTag(Tag.boss))
+    println(petScapeBossKc(scores))
 
     println("$name ${if (meetsPetscapeBasic(scores)) "meets" else "does not meet"} the Petscape Smiley Reqs (-pet)")
 
     return
+}
+
+fun petScapeBossKc(scores: Highscores): Int {
+    val bosses = Index.values().filter { Tag.boss in it.tags } - arrayOf(Index.cox, Index.coxcm, Index.tob)
+
+    return bosses.sumBy { scores.score(it) } + (scores.score(Index.cox) *2) + (scores.score(Index.coxcm) * 4) + (scores.score(Index.tob) * 4)
 }
 
 fun meetsPetscapeBasic(s: Highscores): Boolean {
