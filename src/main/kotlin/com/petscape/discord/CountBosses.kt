@@ -5,7 +5,7 @@ import edu.csh.chase.sprint.Sprint
 import java.net.URLEncoder
 
 fun main() {
-    val name = "sigurros"
+    val name = ""
 
     val scores = getHighScores(name) ?: return
 
@@ -23,7 +23,9 @@ fun main() {
 fun petScapeBossKc(scores: Highscores): Int {
     val bosses = Index.values().filter { Tag.boss in it.tags } - arrayOf(Index.cox, Index.coxcm, Index.tob)
 
-    return bosses.sumBy { scores.score(it) } + (scores.score(Index.cox) *2) + (scores.score(Index.coxcm) * 4) + (scores.score(Index.tob) * 4)
+    return bosses.sumBy { scores.score(it) } + (scores.score(Index.cox) * 2) + (scores.score(Index.coxcm) * 4) + (scores.score(
+        Index.tob
+    ) * 4)
 }
 
 fun meetsPetscapeBasic(s: Highscores): Boolean {
@@ -170,6 +172,7 @@ enum class Index(vararg val tags: Tag) {
     kree(Tag.boss),
     kril(Tag.boss),
     mimic(Tag.boss),
+    nightmare(Tag.boss),
     obor(Tag.boss),
     sarachnis(Tag.boss),
     scorpia(Tag.boss),
