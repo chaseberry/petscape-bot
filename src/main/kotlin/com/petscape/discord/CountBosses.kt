@@ -3,21 +3,34 @@ package com.petscape.discord
 import edu.csh.chase.sprint.Response
 import edu.csh.chase.sprint.Sprint
 import java.net.URLEncoder
+import kotlin.system.exitProcess
 
 fun main() {
-    val name = ""
 
-    val scores = getHighScores(name) ?: return
+    while (true) {
+        print("ign: ")
 
-    println(scores.dump())
+        val ign = readLine()?.takeIf { it.isNotBlank() } ?: continue
 
-    println(scores[Index.overall].score)
+        if (ign == "q") {
+            break
+        }
 
-    println(petScapeBossKc(scores))
+        val scores = getHighScores(ign) ?: continue
 
-    println("$name ${if (meetsPetscapeBasic(scores)) "meets" else "does not meet"} the Petscape Smiley Reqs (-pet)")
+        print("Total level: ")
+        println(scores[Index.overall].score)
 
-    return
+        print("Petscape calced boss KC: ")
+        println(petScapeBossKc(scores))
+
+
+        val r = meetsPetscapeBasic(scores)
+        println("$ign has $r Smiley reqs. They ${if (r >= 2) "meet" else "do not meet"} Petscapes Smiley reqs")
+        println("Though, they might have the pet. This only checks boss, 99, total level.")
+    }
+
+    exitProcess(0)
 }
 
 fun petScapeBossKc(scores: Highscores): Int {
@@ -28,7 +41,7 @@ fun petScapeBossKc(scores: Highscores): Int {
     ) * 4)
 }
 
-fun meetsPetscapeBasic(s: Highscores): Boolean {
+fun meetsPetscapeBasic(s: Highscores): Int {
     var reqs = 0
 
     if (s.score(Index.overall) >= 1500) {
@@ -50,7 +63,7 @@ fun meetsPetscapeBasic(s: Highscores): Boolean {
         reqs += 1
     }
 
-    return reqs >= 2
+    return reqs
 }
 
 /*
@@ -61,7 +74,7 @@ hiscore_oldschool_hardcore_ironman
 hiscore_oldschool_deadman
 hiscore_oldschool_seasonal
 hiscore_oldschool_tournament
-
+ 
  */
 
 fun getHighScores(name: String): Highscores? {
