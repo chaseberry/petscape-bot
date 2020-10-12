@@ -18,12 +18,10 @@ fun main() {
 
         val scores = getHighScores(ign) ?: continue
 
-        print("Total level: ")
-        println(scores[Index.overall].score)
-
-        print("Petscape calced boss KC: ")
-        println(petScapeBossKc(scores))
-
+        println("Total level: ${scores[Index.overall].score}")
+        println("Total x: ${scores[Index.overall].xp}")
+        println("Petscape calced boss KC: ${petScapeBossKc(scores)}")
+        println("Raids KC: ${raidsKc(scores)}")
 
         val r = meetsPetscapeBasic(scores)
         println("$ign has $r Smiley reqs. They ${if (r >= 2) "meet" else "do not meet"} Petscapes Smiley reqs")
@@ -39,6 +37,10 @@ fun petScapeBossKc(scores: Highscores): Int {
     return bosses.sumBy { scores.score(it) } + (scores.score(Index.cox) * 2) + (scores.score(Index.coxcm) * 4) + (scores.score(
         Index.tob
     ) * 4)
+}
+
+fun raidsKc(scores: Highscores): Int {
+    return scores[Index.cox].score + ((scores[Index.coxcm].score + scores[Index.tob].score) * 2)
 }
 
 fun meetsPetscapeBasic(s: Highscores): Int {
