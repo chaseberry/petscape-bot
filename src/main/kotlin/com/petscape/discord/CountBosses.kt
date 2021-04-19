@@ -19,7 +19,7 @@ fun main() {
         val scores = getHighScores(ign) ?: continue
 
         println("Total level: ${scores[Index.overall].score}")
-        println("Total x: ${scores[Index.overall].xp}")
+        println("Total xp: ${scores[Index.overall].xp} (${(scores[Index.overall].xp ?: 0) / 1_000_000}m)")
         println("Petscape calced boss KC: ${petScapeBossKc(scores)}")
         println("Raids KC: ${raidsKc(scores)}")
 
@@ -159,7 +159,8 @@ enum class Index(vararg val tags: Tag) {
     hards(Tag.clue),
     elites(Tag.clue),
     masters(Tag.clue),
-    skip4,
+    lms,
+    soulWars,
     sire(Tag.boss),
     hydra(Tag.boss),
     barrows(Tag.boss),
@@ -192,6 +193,7 @@ enum class Index(vararg val tags: Tag) {
     sarachnis(Tag.boss),
     scorpia(Tag.boss),
     skotizo(Tag.boss),
+    tempoross(Tag.boss),
     guantlet(Tag.boss),
     hardGauntlet(Tag.boss),
     tob(Tag.boss, Tag.raids),
